@@ -8,7 +8,7 @@
     </button>
     <div class="navbar-nav d-none d-md-block">
         <div class="nav-item text-nowrap">
-            <a class="nav-link px-3" href="#">Sign out</a>
+            <a class="nav-link px-3" href="{% url 'logout' %}">Sign out</a>
         </div>
     </div>
 </header>
@@ -23,36 +23,6 @@
                     Dashboard
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file"></span>
-                    Orders
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="shopping-cart"></span>
-                    Products
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="users"></span>
-                    Customers
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="bar-chart-2"></span>
-                    Reports
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="layers"></span>
-                    Integrations
-                </a>
-            </li>
         </ul>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             <span>Business</span>
@@ -60,14 +30,26 @@
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
                 <a class="nav-link" href="#">
-                    <span data-feather="briefcase"></span>
+                    <span data-feather="gift"></span>
                     Deals
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    Last quarter
+                    <span data-feather="briefcase"></span>
+                    Companies
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <span data-feather="image"></span>
+                    Ads
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'issues' %}">
+                    <span data-feather="book"></span>
+                    Issues
                 </a>
             </li>
 
@@ -78,8 +60,8 @@
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
                 <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    Current month
+                    <span data-feather="folder"></span>
+                    Materials
                 </a>
             </li>
             <li class="nav-item">

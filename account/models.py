@@ -11,7 +11,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
-    account_type = models.CharField(choices=ACCOUNT.TYPE_CHOICES, max_length=20)
+    type = models.CharField(choices=ACCOUNT.TYPE_CHOICES, max_length=20)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ["name"]

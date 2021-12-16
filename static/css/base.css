@@ -1,5 +1,29 @@
+body {
+    background-color: #f3f4f9;
+  }
+  
+.card{
+    border-color: white;
+    border-radius: 10px;
+  }
+.form-control{
+    margin-bottom: 1rem !important;
+    border-radius: 10px;
+}
 
-
+.btn-primary{
+    background-color: #713adb;
+    border:#713adb 2px solid;
+    color: white;
+    border-radius: 10px;
+}
+.btn-primary:hover{
+    transition: .4s;
+    background-color: transparent;
+    color: black;
+    border-color: #713adb;
+    border-radius: 10px;
+}
 /* 
 
 #67278e

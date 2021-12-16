@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'comp',
     'payment',
     'core',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -122,7 +123,9 @@ USE_TZ = True
 
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = "login/"
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STATIC_URL = '/static/'
 
