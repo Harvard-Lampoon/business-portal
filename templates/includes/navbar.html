@@ -1,6 +1,6 @@
 {% load static %}
 <header class="navbar navbar-light sticky-top bg-light flex-md-nowrap p-0">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">
+    <a class="navbar-brand me-0 px-3" href="#">
         <img class="" src="{% static 'images/logo.png' %}" height="36" alt=""></a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
         data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,8 +18,8 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">
-                    <span data-feather="home"></span>
+                <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{% url 'home' %}">
+                    <i class="fas fa-home"></i>
                     Dashboard
                 </a>
             </li>
@@ -29,26 +29,26 @@
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="gift"></span>
-                    Deals
+                <a class="nav-link {% if 'contracts' in request.path %}active{% endif %}" href="#">
+                    <i class="fas fa-gift"></i>
+                    Contracts
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="briefcase"></span>
+                <a class="nav-link {% if 'companies' in request.path %}active{% endif %}" href="#">
+                    <i class="fas fa-building"></i>
                     Companies
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="image"></span>
+                <a class="nav-link {% if 'ads' in request.path %}active{% endif %}" href="#">
+                    <i class="fas fa-image"></i>
                     Ads
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'issues' %}">
-                    <span data-feather="book"></span>
+                <a class="nav-link {% if 'issues' in request.path %}active{% endif %}" href="{% url 'issues' %}">
+                    <i class="fas fa-book-open"></i>
                     Issues
                 </a>
             </li>

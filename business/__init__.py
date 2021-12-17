@@ -1,4 +1,4 @@
-class DEAL:
+class CONTRACT:
     STATUS_CHOICES = [
         ("created", "Created"),
         ("pending", "Pending"),
@@ -10,6 +10,17 @@ class DEAL:
         ("trade", "Trade")
     ]
 class AD:
+
+    TYPE_CHOICES = [
+        ("magazine", "Magazine"),
+        ("newsletter", "Newsletter"),
+        ("website", "Website"),
+        ("flag", "Flag"),
+        ("event", "Event"),
+        ("popup", "Pop-Up"),
+        ("other", "Other"),
+    ]
+
     SIZES = [
         ("quarter", "Quarter Page"),
         ("half", "Half Page"),
@@ -23,6 +34,10 @@ class AD:
         ("opposite_inside_back", "Opposite Inside Back Cover"),
         ("back", "Back Cover"),
         ("two_page_centerfold", "Two Page Centerfold Spread")
+    ]
+    NEWSLETTER_SIZES = [
+        ("box", "Box"),
+        ("leaderboard", "Leaderboard")
     ]
 
 

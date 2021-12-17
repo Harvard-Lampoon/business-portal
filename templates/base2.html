@@ -23,9 +23,11 @@
         <div class="card shadow m-3">
           <div class="card-body">
             <div class="text-center">
+              <a href="{% url 'home' %}">
               <img class="m-2 my-4 img-fluid" src="{% static 'images/logo.png' %}" width="300" alt="">
+            </a>
             </div>
-
+            {% include 'includes/messages.html' %}
       
             {% block content %}
             {% endblock %}
