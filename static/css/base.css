@@ -7,9 +7,15 @@ body {
     border-color: white;
     border-radius: 10px;
   }
-.form-control{
-    margin-bottom: 1rem !important;
+  .form-control{
     border-radius: 10px;
+}
+.form-group{
+  margin-bottom: 1rem !important;
+}
+
+.purple{
+  color: #713adb;
 }
 
 .btn-primary{
@@ -32,8 +38,27 @@ body {
   background-color: #5a2bb8;
   border-color: #5a2bb8;
 }
+.btn-check:active+.btn-primary, .btn-check:checked+.btn-primary{
+  background-color: #5a2bb8;
+  border-color: #5a2bb8;
+}
 .table-link{
   cursor: pointer;
+}
+.product-icon{
+  font-size: 40px;
+  color: #713adb;
+}
+.product-type{
+  font-size: 15px;
+  font-weight: bold;
+  color: grey;
+}
+.product-card{
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 100px;
 }
 /* 
 

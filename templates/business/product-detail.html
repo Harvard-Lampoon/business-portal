@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="d-flex align-items-center">
+    <a class="me-auto" href="{% url 'deal_detail' object.deal.pk %}">
+    <i class="fas fa-arrow-circle-left fa-2x purple"></i>
+    </a>
+    <h2 class="text-center me-auto">Edit {{object}}</h2>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form enctype="multipart/form-data" method="post">{% csrf_token %}
+            {% include 'includes/form.html' %}
+            <div class="btn-group d-flex">
+                <input type="submit" value="Update" class="btn btn-primary">
+                <input onclick="return confirm('Are you sure you want to delete this?')" type="submit" name="action" value="Delete" class="btn btn-danger">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

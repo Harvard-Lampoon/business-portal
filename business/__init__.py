@@ -1,4 +1,4 @@
-class CONTRACT:
+class DEAL:
     STATUS_CHOICES = [
         ("created", "Created"),
         ("pending", "Pending"),
@@ -9,7 +9,7 @@ class CONTRACT:
         ("cash", "Cash"),
         ("trade", "Trade")
     ]
-class AD:
+class PRODUCT:
 
     TYPE_CHOICES = [
         ("magazine", "Magazine"),

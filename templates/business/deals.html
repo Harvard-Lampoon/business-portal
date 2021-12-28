@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="d-flex align-items-center justify-content-between px-2 mb-3">
+  <h2>Issues</h2>
+  <button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-primary">Create New</button>
+</div>
+<div class="card">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Company</th>
+            <th scope="col">Value</th>
+            <th scope="col">Is Active</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for object in object_list %}
+
+          <tr link="{% url 'issue_detail' object.pk %}" class="table-link">
+            <th scope="row">{{object.pk}}</th>
+            <td>{{object.company.name}}</td>
+            <td>{{object.value}}</td>
+            <td>{{object.created_by}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% include 'business/modals/issue.html' %}
+
+{% endblock %}

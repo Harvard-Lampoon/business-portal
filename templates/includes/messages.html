@@ -1,6 +1,6 @@
 {% if messages %}
 
-  <div class="row text-center mb-3">
+  <div class="text-center mb-3">
   <div class="col-12 ms-auto me-auto">
       {% for message in messages %}
       <div style="margin-bottom: 0px;" class="alert {% if message.tags == 'error' %}alert-danger{% else %} alert-{{ message.tags }}{% endif %}" role="alert">

@@ -2,7 +2,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Create Issue</h5>
+          <h5 class="modal-title">Create Company</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form method="POST" action="">{% csrf_token %}
@@ -10,11 +10,7 @@
               
         <div class="mb-3">
             <label class="form-label">Name</label>
-            <input required name="name" type="text" class="form-control" placeholder="Best Served Cold #">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Release Date</label>
-            <input required name="release-date" type="date" class="form-control">
+            <input required name="name" type="text" class="form-control" placeholder="">
           </div>
           <button type="submit" class="btn btn-primary w-100">Create</button>
         </div>

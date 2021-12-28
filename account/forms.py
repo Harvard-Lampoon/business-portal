@@ -3,7 +3,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model, authenticate
 
-
 class LoginForm(AuthenticationForm):
 
 

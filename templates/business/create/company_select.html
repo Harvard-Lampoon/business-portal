@@ -1,0 +1,8 @@
+
+  <h4>Select Existing Company</h4>
+  <select name="company-pk" required id="companies" class="form-select">
+      <option selected>Select Company</option>
+      {% for company in companies %}
+      <option value="{{company.pk}}">{{company.name}}</option>
+      {% endfor %}
+    </select>

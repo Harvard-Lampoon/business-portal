@@ -1,0 +1,15 @@
+{% if product.type == 'magazine' %}
+    {% include 'includes/products/magazine.html' %}
+{% elif product.type == 'website' %}
+    {% include 'includes/products/website.html' %}
+{% elif product.type == 'newsletter' %}
+    {% include 'includes/products/newsletter.html' %}
+{% elif product.type == 'flag' %}
+    {% include 'includes/products/flag.html' %}
+{% elif product.type == 'event' %}
+    {% include 'includes/products/event.html' %}
+{% elif product.type == 'popup' %}
+    {% include 'includes/products/popup.html' %}
+{% elif product.type == 'other' %}
+    {% include 'includes/products/other.html' %}
+{% endif %}

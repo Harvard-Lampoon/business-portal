@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="text-center px-2 mb-3">
+    <h2>{{object.created_by}}'s Deal with {{object.company.name}}</h2>
+    <h5 class="text-muted">Total Value: ${{deal.get_total_value|floatformat:2}}</h5>
+</div>
+<div class="col-12 col-md-8">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Deal Info</h4>
+            <form method="POST">{% csrf_token %}
+                <div class="mb-3">
+                    <label for="" class="form-label">Deal Notes</label>
+                    <textarea name="notes" class="form-control" id="" rows="3">{{object.notes}}</textarea>
+                </div>
+                <div class="form-check form-switch">
+                    <input name="is_private" class="form-check-input" type="checkbox" role="switch"
+                        {% if object.is_private %}checked{% endif %}>
+                    <label class="form-check-label">Is Private</label>
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">Trade Info</label>
+                    <textarea name="trade_information" class="form-control" id=""
+                        rows="3">{{object.trade_information}}</textarea>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-12 col-md-6">
+                        <label for="" class="form-label">Trade Value</label>
+                        <input class="form-control" value="{{object.trade_value}}" name="trade_value" type="number"
+                            step="0.01">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="" class="form-label">Cash Value</label>
+                        <input disabled class="form-control" value="{{object.get_total_cash_value|floatformat:2}}" type="number">
+                        <div id="emailHelp" class="form-text">Add products below to increase cash value</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+
+                </div>
+
+                <div class="btn-group d-flex">
+                    <input type="submit" value="Update" class="btn btn-primary">
+                    <input onclick="return confirm('Are you sure you want to delete this?')" type="submit" name="action" value="Delete" class="btn btn-danger">
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-md-4">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Company Info</h4>
+            <div class="d-flex flex-column">
+                <div class="text-muted">Name</div>
+                <div>{{object.company.name}}</div>
+                <div class="text-muted">Contact Name</div>
+                <div>{{object.company.contact_name}}</div>
+                <div class="text-muted">Contact Email</div>
+                <div><a class="link" href="mailto:{{object.company.contact_email}}">{{object.company.contact_email}}</a>
+                </div>
+                <div class="text-muted">Contact Phone</div>
+                <div>{{object.company.contact_phone}}</div>
+                <div class="text-muted">Company Notes</div>
+                <div>{{object.company.notes}}</div>
+                <a href="">More info</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12">
+    <div class="d-flex align-items-center justify-content-between px-2 mb-3">
+        <h2>Products</h2>
+        <button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-primary">Add New</button>
+    </div>
+    {% if object.products.all %}
+    <div class="row g-3">
+        {% for product in object.products.all %}
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+
+                    <i class="{{product.subclass.get_icon}} product-icon"></i>
+                    <h4 class="card-title">{{product.get_type_display}} Product</h4>
+                    <div class="lead">${{product.value}}</div>
+                    <div class="">{{product.notes|linebreaks}}</div>
+                    <a class="btn btn-primary w-100" href="{{product.subclass.get_detail_url}}">More Info</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h2 class="text-center">No Products :(</h2>
+    {% endif %}
+</div>
+
+{% include 'business/modals/product.html' %}
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/deal.js' %}"></script>
+{% endblock %}
