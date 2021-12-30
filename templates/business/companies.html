@@ -9,6 +9,7 @@
 </div>
 <div class="card">
   <div class="card-body">
+      {% include 'includes/filter.html' %}
     <div class="table-responsive">
       <table class="table table-hover">
         <thead>
@@ -23,7 +24,7 @@
         <tbody>
           {% for object in object_list %}
 
-          <tr link="{% url 'issue_detail' object.pk %}" class="table-link">
+          <tr link="{% url 'company_detail' object.pk %}" class="table-link">
             <th scope="row">{{object.pk}}</th>
             <td>{{object.name}}</td>
             <td>{{object.contact_name}}</td>

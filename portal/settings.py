@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'comp',
     'payment',
     'core',
+    'docusign',
     'crispy_forms',
 ]
 
@@ -112,6 +113,8 @@ else:
 
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
+    DS_BASE_URI = "https://account.docusign.com/oauth"
+
 
 LANGUAGE_CODE = 'en-us'
 
@@ -144,6 +147,9 @@ AUTH_USER_MODEL = "account.User"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DS_BASE_URI = "https://account-d.docusign.com/oauth"
+DS_INTEGREATION_KEY = env("DS_INTEGREATION_KEY")
+DS_SECRET_KEY = env("DS_SECRET_KEY")
 
 LOGGING = {
     'version': 1,

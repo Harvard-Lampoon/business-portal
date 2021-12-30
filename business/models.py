@@ -5,12 +5,16 @@ from django.conf import settings
 from math import fsum
 from django.shortcuts import reverse
 
+from docusign.models import ApiClient
+from docusign.utils import make_envelope
+from .managers import DealManager
+
 class Company(models.Model):
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
-    contact_name = models.CharField(max_length=255, null=True, blank=True)
-    contact_email = models.CharField(max_length=255, null=True, blank=True)
+    contact_name = models.CharField(max_length=255)
+    contact_email = models.CharField(max_length=255)
     contact_phone = models.CharField(max_length=255, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
 
@@ -38,6 +42,8 @@ class Deal(models.Model):
     trade_value = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
     trade_information = models.TextField(null=True, blank=True)
     pdf = models.FileField(upload_to="deals/", null=True, blank=True)
+
+    objects = DealManager()
 
     def __str__(self) -> str:
         return f"{self.company.name} / {self.get_total_value()}"

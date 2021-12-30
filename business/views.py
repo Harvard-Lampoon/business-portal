@@ -49,13 +49,18 @@ class issue_detail(UpdateView):
     def get_success_url(self):
         return reverse('issue_detail', kwargs={'pk': self.object.pk})
 
-@method_decorator([login_required, business_required], name="dispatch")
+@method_decorator([login_required], name="dispatch")
 class my_deals(ListView):
     paginate_by = 25
     model = Deal
     template_name = "business/my-deals.html"
     def get_queryset(self):
-        context = super().get_queryset().filter(created_by=self.request.user).order_by("-created_at")
+        filter_qs = self.request.GET.get("filter", "")
+        context = super().get_queryset().filter(created_by=self.request.user).filter(
+        Q(company__name__icontains=filter_qs)|
+        Q(company__contact_name__icontains=filter_qs)|
+        Q(company__contact_email__icontains=filter_qs)
+        ).order_by("-created_at")
         return context
 
 @method_decorator([login_required, business_required], name="dispatch")
@@ -68,7 +73,7 @@ class public_deals(ListView):
         context = super().get_queryset().filter(is_private=False).filter(Q(type__icontains=filter_qs)|Q(company__name__icontains=filter_qs)|Q(created_by__name__icontains=filter_qs)).order_by("-created_at")
         return context
 
-@method_decorator([login_required, business_required], name="dispatch")
+@method_decorator([login_required], name="dispatch")
 class deal_detail(UpdateView):
     model = Deal
     fields = ["notes", "is_private", "trade_value", "trade_information"]
@@ -228,12 +233,18 @@ class companies(ListView):
 
     def get_queryset(self):
         filter_qs = self.request.GET.get("filter", "")
-        context = super().get_queryset().filter(Q(name__icontains=filter_qs)).order_by("-created_at")
+        context = super().get_queryset().filter(
+        Q(name__icontains=filter_qs)|
+        Q(contact_name__icontains=filter_qs)|
+        Q(contact_email__icontains=filter_qs)
+        ).order_by("-created_at")
         return context
     
     def post(self, request, *args, **kwargs):
         object = self.model.objects.create(
             name=request.POST.get("name"),
+            contact_name=request.POST.get("contact_name"),
+            contact_email=request.POST.get("contact_email"),
         )
         return redirect(reverse("company_detail", kwargs={"pk": object.pk}))
 

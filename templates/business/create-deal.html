@@ -13,7 +13,7 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <div class="text-center">All information can be changed later</div>
+      <div class="text-center mb-3 text-muted">All information can be changed later</div>
         <form method="POST">{% csrf_token %}
 
           <div class="text-center mb-3">
@@ -23,10 +23,10 @@
             <input required endpoint="{% url 'create_deal_get_data_company' %}?action=create" type="radio" class="btn-check" name="action" value="create" id="create" autocomplete="off">
             <label class="btn btn-primary" for="create">Create</label>
           </div>
-  <div id="extra_data">
+  <div id="extra_data" class="mb-3">
   
   </div>
-
+<hr>
   <div class="mb-3">
     <label class="form-label">Deal Notes</label>
     <textarea name="notes" class="form-control"></textarea>

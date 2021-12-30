@@ -17,8 +17,15 @@
       </div>
 
 
-      <h2>Section title</h2>
-      <div class="row">
+      <div class="row g-3">
+        <h4 class="text-center">All Lampoon Deals - Monthly Performance</h4>
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <canvas id="deal-chart" width="" height="100"></canvas>
+            </div>
+          </div>
+        </div>
         <div class="col-6">
           <div class="card" style="width: 18rem;">
             <div class="card-body">
@@ -35,4 +42,9 @@
 
 {% block js %}
 <script src="{% static 'js/dashboard.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+const data = {{monthly_data|safe}}
+</script>
+<script src="{% static 'js/index.js' %}"></script>
 {% endblock %}

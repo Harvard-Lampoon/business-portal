@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("core.urls")),
     path("business/", include("business.urls")),
+    path("docusign/", include("docusign.urls")),
     path("accounts/", include("account.urls")),
 ]
 if settings.DEBUG:
