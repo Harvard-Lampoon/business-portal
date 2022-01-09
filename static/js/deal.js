@@ -31,3 +31,10 @@ product_select.addEventListener("change", (e)=>{
         product_data.innerHTML = result.html
     })
 })
+
+function request(status){
+    if(status=="pending"){
+        return confirm("A request has already been sent out. Are you sure you want to send another?")
+    }
+    return true
+}

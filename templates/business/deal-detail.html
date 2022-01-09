@@ -4,6 +4,7 @@
 {% block content %}
 <div class="text-center px-2 mb-3">
     <h2>{{object.created_by}}'s Deal with {{object.company.name}}</h2>
+    <h4 class="text-muted">Status: {{object.get_status_display}} <span class="dot dot-{{object.status}}"></span></h4>
     <h5 class="text-muted">Total Value: ${{deal.get_total_value|floatformat:2}}</h5>
 </div>
 <div class="col-12 col-md-8">
@@ -12,29 +13,30 @@
             <h4 class="card-title">Deal Info</h4>
             <form method="POST">{% csrf_token %}
                 <div class="mb-3">
-                    <label for="" class="form-label">Deal Notes</label>
-                    <textarea name="notes" class="form-control" id="" rows="3">{{object.notes}}</textarea>
+                    <label for="" class="form-label">Deal Info</label>
+                    <textarea name="info" class="form-control" id="" rows="3">{{object.info}}</textarea>
                 </div>
                 <div class="form-check form-switch">
                     <input name="is_private" class="form-check-input" type="checkbox" role="switch"
                         {% if object.is_private %}checked{% endif %}>
                     <label class="form-check-label">Is Private</label>
                 </div>
-                <div class="mb-3">
-                    <label for="" class="form-label">Trade Info</label>
-                    <textarea name="trade_information" class="form-control" id=""
-                        rows="3">{{object.trade_information}}</textarea>
-                </div>
                 <div class="mb-3 row">
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-4">
                         <label for="" class="form-label">Trade Value</label>
                         <input class="form-control" value="{{object.trade_value}}" name="trade_value" type="number"
                             step="0.01">
                     </div>
-                    <div class="col-12 col-md-6">
-                        <label for="" class="form-label">Cash Value</label>
-                        <input disabled class="form-control" value="{{object.get_total_cash_value|floatformat:2}}" type="number">
-                        <div id="emailHelp" class="form-text">Add products below to increase cash value</div>
+                    <div class="col-12 col-md-4">
+                        <label for="" class="form-label">Cash Payment</label>
+                        <input class="form-control" value="{{object.cash_payment}}" name="cash_payment" type="number"
+                            step="0.01">
+                            <div id="emailHelp" class="form-text">How much cash client will be charged.</div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label for="" class="form-label">Products Value</label>
+                        <input disabled class="form-control" value="{{object.get_product_value|floatformat:2}}" type="number">
+                        <div id="emailHelp" class="form-text">How much products are worth. Add products below to increase.</div>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -43,7 +45,8 @@
 
                 <div class="btn-group d-flex">
                     <input type="submit" value="Update" class="btn btn-primary">
-                    <a class="btn btn-secondary" href="{% url 'request_signature' object.pk %}">Request Signature</a>
+                    <a class="btn btn-secondary" href="{% url 'preview_contract' object.pk %}">Preview Contract</a>
+                    <a class="btn btn-success" onclick="return request('{{object.status}}')" href="{% url 'request_signature' object.pk %}">Request Signature</a>
                     <input onclick="return confirm('Are you sure you want to delete this?')" type="submit" name="action" value="Delete" class="btn btn-danger">
 
                 </div>
@@ -68,6 +71,10 @@
                 <div>{{object.company.contact_phone}}</div>
                 <div class="text-muted">Company Notes</div>
                 <div>{{object.company.notes}}</div>
+                <div class="text-muted">Billing Address</div>
+                <div>{{object.company.billing_address}}</div>
+                <div class="text-muted">City, State, Zip</div>
+                <div>{{object.company.city_state_zip}}</div>
                 <a class="ms-auto link" href="{% url 'company_detail' object.company.pk %}">More info >></a>
             </div>
         </div>

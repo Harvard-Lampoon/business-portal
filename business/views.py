@@ -76,7 +76,7 @@ class public_deals(ListView):
 @method_decorator([login_required], name="dispatch")
 class deal_detail(UpdateView):
     model = Deal
-    fields = ["notes", "is_private", "trade_value", "trade_information"]
+    fields = ["is_private", "trade_value", "cash_payment", "info"]
     template_name = "business/deal-detail.html"
 
     def post(self, request, *args, **kwargs):
@@ -108,7 +108,7 @@ def create_deal(request):
         if action == "select":
             company = get_object_or_404(Company, pk=data.get("company-pk"))
         elif action == "create":
-            company = Company.objects.create(name=data.get("company-name"), notes=data.get("company-notes"))
+            company = Company.objects.create(name=data.get("company-name"), notes=data.get("company-notes"), contact_name=data.get("contact-name"), contact_email=data.get("contact-email"))
         else:
             raise Http404()
         
@@ -245,6 +245,8 @@ class companies(ListView):
             name=request.POST.get("name"),
             contact_name=request.POST.get("contact_name"),
             contact_email=request.POST.get("contact_email"),
+            billing_address=request.POST.get("billing_address"),
+            city_state_zip=request.POST.get("city_state_zip")
         )
         return redirect(reverse("company_detail", kwargs={"pk": object.pk}))
 

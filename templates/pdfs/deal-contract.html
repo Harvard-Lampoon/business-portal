@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @page {
+            size: letter portrait;
+            margin-left: 0cm;
+            margin-top: 0cm;
+            margin-bottom: 0cm;
+        }
+
+        body {
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+
+        .header {
+            background-color: white !important;
+            vertical-align: middle;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .left {
+            text-align: left;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+
+        .w-75 {
+            width: 75%;
+        }
+
+
+        .w-auto {
+            width: auto;
+        }
+
+        #title {
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        #logo {
+            margin-right: 10px;
+            width: 150px;
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #main {
+            vertical-align: top;
+            width: 87%;
+            padding: 10px;
+        }
+
+        #content {
+            padding: 10px;
+        }
+
+        .input {
+            border-top: 1px solid black;
+     
+            font-weight: bold;
+        }
+        .two-input {
+            border-top: 1px solid black;
+            font-weight: bold;
+        }
+
+        .value {
+            padding-bottom: 0px;
+            font-size: 12px;
+        }
+
+        .info-element {
+            width: 50%;
+            padding-bottom: 0px;
+            padding-top: 5px;
+        }
+        .two-info-element {
+            width: 50%;
+            padding-bottom: 0px;
+            padding-top: 5px;
+            padding-right: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table>
+        <td>
+            <img src="{{request.scheme}}://{{request.get_host}}/static/images/deal-sidebar.jpg">
+        </td>
+        <td id="main">
+            <img src="{{request.scheme}}://{{request.get_host}}/static/images/deal-header.jpg">
+            <div id="content">
+                <table>
+                    <tr>
+                        <td class="info-element">
+                            <div class="value">{{deal.company.name}}</div>
+                            <div class="input">COMPANY</div>
+                        </td>
+                        <td class="info-element">
+                            <div class="value">{% now "F jS Y" %}</div>
+                            <div class="input">DATE</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="info-element">
+                            <div class="value">{{deal.company.billing_address}}</div>
+                            <div class="input">BILLING ADDRESS</div>
+                        </td>
+                        <td class="info-element">
+                            <table style="padding: 0px;">
+                                <tr class="value">
+                                    <td class="left">{{deal.company.contact_name}}</td>
+                                    <td class="right">{% if deal.company.contact_position %}{{deal.company.contact_position}}{% endif %}</td>
+                                </tr>
+                                <tr style="padding-top: 2px;" class="input">
+                                    <td class="left">CONTACT NAME</td>
+                                    <td class="right">POSITION</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="info-element">
+                            <div class="value">{{deal.company.city_state_zip}}</div>
+                            <div class="input">CITY, STATE, ZIP</div>
+                        </td>
+                        <td class="info-element">
+                            <table style="padding: 0px;">
+                                <tr class="value">
+                                    <td class="left">{{deal.company.contact_phone}}</td>
+                                    <td class="right">{{deal.company.contact_email}}</td>
+                                </tr>
+                                <tr style="padding-top: 2px;" class="input">
+                                    <td class="left">TELEPHONE</td>
+                                    <td class="right">EMAIL</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </table>
+</body>
+
+</html>

@@ -7,6 +7,7 @@ from django.conf import settings
 import requests
 import json
 from .utils import make_envelope
+import base64
 
 class ApiClient(models.Model):
     access_token = models.TextField(max_length=2000, null=True, blank=True)
@@ -26,9 +27,11 @@ class ApiClient(models.Model):
 
     def refresh(self):
         print("Refreshing API Client")
-        encoded = f"{settings.DS_INTEGREATION_KEY}:{settings.DS_SECRET_KEY}".encode()
+        integrator_and_secret_key = b"Basic " + base64.b64encode(str.encode("{}:{}".format(settings.DS_INTEGREATION_KEY, settings.DS_SECRET_KEY)))
         headers = {
-            "Authorization": f"Bearer {encoded}"
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": integrator_and_secret_key.decode("utf-8")
         }
         data = {
             "grant_type": "refresh_token",
@@ -45,6 +48,7 @@ class ApiClient(models.Model):
             self.save()
         except:
             print("Issue with refreshing access token")
+            raise Http404("Issue with refreshing access token")
 
     def handle_refresh(self):
         delta_time = timezone.now() - self.last_refresh
@@ -56,10 +60,13 @@ class ApiClient(models.Model):
 
     def send_document(self, envelope):
         headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
             "Authorization": f"Bearer {self.access_token}"
         }
         try:
             print(headers)
+            print(envelope)
             response = requests.post(f"{self.base_uri}/restapi/v2.1/accounts/{self.account_id}/envelopes", headers=headers, data=json.dumps(envelope))
             print(response.url)
             print("RESPONSE", response)
@@ -68,4 +75,4 @@ class ApiClient(models.Model):
             return response
         except:
             print("Issue with sending document to sign")
-            raise Http404
+            raise Http404("Issue with sending document to sign")

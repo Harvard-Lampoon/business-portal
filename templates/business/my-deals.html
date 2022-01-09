@@ -27,7 +27,7 @@
             <th scope="row">{{object.pk}}</th>
             <td>{{object.company.name}}</td>
             <td>${{object.get_total_value|floatformat:2}}</td>
-            <td>{{object.get_status_display}}</td>
+            <td>{{object.get_status_display}}<span class="dot dot-{{object.status}} ms-1"></span></td>
           </tr>
           {% endfor %}
         </tbody>

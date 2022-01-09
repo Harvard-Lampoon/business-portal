@@ -1,10 +1,11 @@
+from io import BytesIO
 from django.db import models
 from django import forms
 from business import DEAL, PRODUCT
 from django.conf import settings
 from math import fsum
 from django.shortcuts import reverse
-
+from docusign.utils import render_to_pdf
 from docusign.models import ApiClient
 from docusign.utils import make_envelope
 from .managers import DealManager
@@ -16,6 +17,9 @@ class Company(models.Model):
     contact_name = models.CharField(max_length=255)
     contact_email = models.CharField(max_length=255)
     contact_phone = models.CharField(max_length=255, null=True, blank=True)
+    contact_position = models.CharField(max_length=100, null=True, blank=True)
+    billing_address = models.CharField(max_length=255)
+    city_state_zip = models.CharField(max_length=255)
     notes = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
@@ -34,13 +38,13 @@ class Deal(models.Model):
     # type = models.CharField(choices=DEAL.TYPE_CHOICES, max_length=50)
     status = models.CharField(choices=DEAL.STATUS_CHOICES, max_length=50)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="deals")
-    notes = models.TextField(null=True, blank=True)
+    info = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     signed_at = models.DateTimeField(null=True, blank=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     is_private = models.BooleanField(default=True)
     trade_value = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
-    trade_information = models.TextField(null=True, blank=True)
+    cash_payment = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
     pdf = models.FileField(upload_to="deals/", null=True, blank=True)
 
     objects = DealManager()
@@ -49,10 +53,20 @@ class Deal(models.Model):
         return f"{self.company.name} / {self.get_total_value()}"
 
     def get_total_value(self):
-        return fsum([self.get_total_cash_value(), self.trade_value or 0])
+        return fsum([self.cash_payment or 0, self.trade_value or 0])
 
-    def get_total_cash_value(self):
-        return fsum([product.value for product in self.products.all()])
+    def get_product_value(self):
+        return fsum([product.get_total_value() for product in self.products.all()])
+
+    def generate_pdf(self, request):
+        self.pdf.delete()
+        context = {
+            "deal": self,
+            "request": request
+        }
+        pdf = render_to_pdf('pdfs/deal-contract.html', context)
+        self.pdf.save("Harvard_Lampoon_Contract", (BytesIO(pdf.content)))
+        return self.pdf
 
 class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -60,31 +74,22 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     deal = models.ForeignKey(Deal, on_delete=models.CASCADE, related_name="products", help_text="Enter cash value of this product in $")
     value = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
+    discount = models.IntegerField("Discount Percentage", default=0, blank=True)
     notes = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.get_type_display()} Product"
 
     def subclass(self):
-        if self.type == "magazine":
-            return self.magazine
-        elif self.type == "website":
-            return self.website
-        elif self.type == "newsletter":
-            return self.newsletter
-        elif self.type == "flag":
-            return self.flag
-        elif self.type == "event":
-            return self.event
-        elif self.type == "popup":
-            return self.popup
-        elif self.type == "other":
-            return self.other
-        else:
-            return None
+        return eval("self." + self.type)
 
     def get_detail_url(self):
         return reverse(f"{self.type}_product", kwargs={"pk": self.subclass().pk})
+
+    def get_total_value(self):
+        if self.discount:
+            return round(self.value*(1 - (self.discount/100)))
+        return self.value
 
 class Magazine(Product):
     size = models.CharField(choices=PRODUCT.SIZES, max_length=255)

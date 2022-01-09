@@ -52,7 +52,7 @@ class ApiClientManager(models.Manager):
             
         except:
             print("Issue with obtaining first access token")
-            raise Http404
+            raise Http404("Issue with obtaining first access token")
         
         headers = {
             "Authorization": f"Bearer {access_token}"
@@ -67,7 +67,7 @@ class ApiClientManager(models.Manager):
             base_uri = data["accounts"][0]["base_uri"]
         except:
             print("Issue with obtaining account id & base uri")
-            raise Http404
+            raise Http404("Issue with obtaining account id & base uri")
         
         client = super().create(
             access_token = access_token,

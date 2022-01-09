@@ -71,6 +71,28 @@ body {
 .link:hover{
   color: #67278e;
 }
+
+.dot{
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: black;
+}
+
+.dot-created{
+  background-color: rgb(165, 164, 164);
+}
+.dot-pending{
+  background-color: orange;
+}
+.dot-confirmed{
+  background-color: green;
+}
+.dot-cancelled{
+  background-color: red;
+}
+
 /* 
 
 #67278e
