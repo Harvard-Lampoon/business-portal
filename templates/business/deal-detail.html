@@ -5,7 +5,8 @@
 <div class="text-center px-2 mb-3">
     <h2>{{object.created_by}}'s Deal with {{object.company.name}}</h2>
     <h4 class="text-muted">Status: {{object.get_status_display}} <span class="dot dot-{{object.status}}"></span></h4>
-    <h5 class="text-muted">Total Value: ${{deal.get_total_value|floatformat:2}}</h5>
+    <h5 class="text-muted mb-0">Total Value: ${{deal.get_total_value|floatformat:2}}</h5>
+    <small class="text-muted">Trade value + Cash payment</small>
 </div>
 <div class="col-12 col-md-8">
     <div class="card">
@@ -94,7 +95,7 @@
 
                     <i class="{{product.subclass.get_icon}} product-icon"></i>
                     <h4 class="card-title">{{product.get_type_display}} Product</h4>
-                    <div class="lead">${{product.value}}</div>
+                    <div class="lead">{% if product.discount %} <del class="text-muted">${{product.value}}</del> ${{product.get_true_value}}{% else %}${{product.value}}{% endif %}</div>
                     <div class="">{{product.notes|linebreaks}}</div>
                     <a class="btn btn-primary w-100" href="{{product.subclass.get_detail_url}}">More Info</a>
                 </div>

@@ -9,6 +9,7 @@ from docusign.utils import render_to_pdf
 from docusign.models import ApiClient
 from docusign.utils import make_envelope
 from .managers import DealManager
+import decimal
 
 class Company(models.Model):
     name = models.CharField(max_length=255)
@@ -56,7 +57,7 @@ class Deal(models.Model):
         return fsum([self.cash_payment or 0, self.trade_value or 0])
 
     def get_product_value(self):
-        return fsum([product.get_total_value() for product in self.products.all()])
+        return fsum([product.get_true_value() for product in self.products.all()])
 
     def generate_pdf(self, request):
         self.pdf.delete()
@@ -74,7 +75,7 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     deal = models.ForeignKey(Deal, on_delete=models.CASCADE, related_name="products", help_text="Enter cash value of this product in $")
     value = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
-    discount = models.IntegerField("Discount Percentage", default=0, blank=True)
+    discount = models.PositiveIntegerField("Discount Percentage", default=0, blank=True)
     notes = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
@@ -86,10 +87,15 @@ class Product(models.Model):
     def get_detail_url(self):
         return reverse(f"{self.type}_product", kwargs={"pk": self.subclass().pk})
 
-    def get_total_value(self):
+    def get_true_value(self):
         if self.discount:
-            return round(self.value*(1 - (self.discount/100)))
+            return round(self.value*(1 - decimal.Decimal(self.discount/100)), 2)
         return self.value
+
+    def get_issue(self):
+        if self.type == "magazine":
+            return self.magazine.issue.name or "Unknown"
+        return "NA"
 
 class Magazine(Product):
     size = models.CharField(choices=PRODUCT.SIZES, max_length=255)
@@ -103,6 +109,10 @@ class Magazine(Product):
 
     def get_icon(self):
         return "fas fa-book-open"
+    
+    def get_description(self):
+        return f"{self.get_size_display()} {self.get_placement_display()} Ad"
+
 
 class Website(Product):
     media = models.ImageField(upload_to="products/website/", null=True, blank=True)
@@ -112,6 +122,10 @@ class Website(Product):
 
     def get_icon(self):
         return "fa fa-globe"
+
+    def get_description(self):
+        return f"Website Ad"
+
 
 class Newsletter(Product):
     months = models.PositiveIntegerField()
@@ -123,6 +137,9 @@ class Newsletter(Product):
     def get_icon(self):
         return "fas fa-inbox"
 
+    def get_description(self):
+        return f"{self.months} months {self.get_size_display()} Newsletter"
+
 class Flag(Product):
     image = models.ImageField(upload_to="products/flag/", null=True, blank=True)
     months = models.PositiveIntegerField()
@@ -133,12 +150,19 @@ class Flag(Product):
     def get_icon(self):
         return "fas fa-flag"
 
+    def get_description(self):
+        return f"{self.months} months Flag"
+
+
 class Event(Product):
     def __str__(self) -> str:
         return f"Event Product"
 
     def get_icon(self):
         return "far fa-calendar-alt"
+
+    def get_description(self):
+        return f"Event Ad"
 
 class Popup(Product):
     date = models.DateTimeField()
@@ -150,9 +174,15 @@ class Popup(Product):
     def get_icon(self):
         return "fa fa-handshake"
 
+    def get_description(self):
+        return f"{self.date} Popup"
+
 class Other(Product):
     def __str__(self) -> str:
         return f"Other Product"
 
     def get_icon(self):
         return "fas fa-question"
+
+    def get_description(self):
+        return f"Other"

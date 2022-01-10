@@ -152,19 +152,19 @@ class ProductCreateView(CreateView):
 
 class create_magazine_product(ProductCreateView):
     model = Magazine
-    fields = [ "value", "notes", "size", "placement", "issue", "image", "is_color"]
+    fields = [ "value", "discount", "notes", "size", "placement", "issue", "image", "is_color"]
 
 class create_website_product(ProductCreateView):
     model = Website
-    fields = [ "value", "notes", "media"]
+    fields = [ "value", "discount", "notes", "media"]
 
 class create_newsletter_product(ProductCreateView):
     model = Newsletter
-    fields = [ "value", "notes", "months", "size"]
+    fields = [ "value", "discount", "notes", "months", "size"]
 
 class create_flag_product(ProductCreateView):
     model = Flag
-    fields = [ "value", "notes", "image", "months"]
+    fields = [ "value", "discount", "notes", "image", "months"]
 
 class create_event_product(ProductCreateView):
     model = Event
@@ -172,7 +172,7 @@ class create_event_product(ProductCreateView):
 
 class create_popup_product(ProductCreateView):
     model = Popup
-    fields = [ "value", "notes", "date", "duration"]
+    fields = [ "value", "discount", "notes", "date", "duration"]
     
 class create_other_product(ProductCreateView):
     model = Other
@@ -196,19 +196,19 @@ class ProductUpdateView(UpdateView):
 
 class magazine_product(ProductUpdateView):
     model = Magazine
-    fields = [ "value", "notes", "size", "placement", "issue", "image", "is_color"]
+    fields = [ "value", "discount", "notes", "size", "placement", "issue", "image", "is_color"]
 
 class website_product(ProductUpdateView):
     model = Website
-    fields = [ "value", "notes", "media"]
+    fields = [ "value", "discount", "notes", "media"]
 
 class newsletter_product(ProductUpdateView):
     model = Newsletter
-    fields = [ "value", "notes", "months", "size"]
+    fields = [ "value", "discount", "notes", "months", "size"]
 
 class flag_product(ProductUpdateView):
     model = Flag
-    fields = [ "value", "notes", "image", "months"]
+    fields = [ "value", "discount", "notes", "image", "months"]
 
 class event_product(ProductUpdateView):
     model = Event
@@ -216,7 +216,7 @@ class event_product(ProductUpdateView):
 
 class popup_product(ProductUpdateView):
     model = Popup
-    fields = [ "value", "notes", "date", "duration"]
+    fields = [ "value", "discount", "notes", "date", "duration"]
 
 class other_product(ProductUpdateView):
     model = Other

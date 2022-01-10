@@ -78,7 +78,7 @@ def make_envelope(deal, request):
                     "tabs": {
                         "signHereTabs": [
                             {
-                                "anchorString": "**signature_1**",
+                                "anchorString": "**client_signature**",
                                 "anchorUnits": "pixels",
                                 "anchorXOffset": "10",
                                 "anchorYOffset": "10",

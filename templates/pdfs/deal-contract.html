@@ -74,9 +74,10 @@
 
         .input {
             border-top: 1px solid black;
-     
+
             font-weight: bold;
         }
+
         .two-input {
             border-top: 1px solid black;
             font-weight: bold;
@@ -92,11 +93,22 @@
             padding-bottom: 0px;
             padding-top: 5px;
         }
+
         .two-info-element {
             width: 50%;
             padding-bottom: 0px;
             padding-top: 5px;
             padding-right: 30px;
+        }
+
+        #product-table {
+            margin-top: 20px;
+            border: 2px solid black;
+            padding: 5px;
+        }
+
+        #product-table>td {
+            align-items: center;
         }
     </style>
 </head>
@@ -130,7 +142,9 @@
                             <table style="padding: 0px;">
                                 <tr class="value">
                                     <td class="left">{{deal.company.contact_name}}</td>
-                                    <td class="right">{% if deal.company.contact_position %}{{deal.company.contact_position}}{% endif %}</td>
+                                    <td class="right">
+                                        {% if deal.company.contact_position %}{{deal.company.contact_position}}{% endif %}
+                                    </td>
                                 </tr>
                                 <tr style="padding-top: 2px;" class="input">
                                     <td class="left">CONTACT NAME</td>
@@ -157,6 +171,54 @@
                             </table>
                         </td>
                     </tr>
+                </table>
+                <table id="product-table">
+                    <tr>
+                        <th>Ad Type</th>
+                        <th>Description</th>
+                        <th>Issue</th>
+                        <th>Value of Ad</th>
+                        <th>% Discount</th>
+                        <th>Total Value</th>
+                    </tr>
+                    {% for product in deal.products.all %}
+                    <tr>
+                        <td>{{product.get_type_display}}</td>
+                        <td>{{product.subclass.get_description}}</td>
+                        <td>{{product.get_issue}}</td>
+                        <td>${{product.value}}</td>
+                        <td>{{product.discount}}% Off</td>
+                        <td>${{product.get_true_value}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <table class="">
+                    <td class="">
+                        <div style="font-size: 10px;">
+                            This agreement sets forth terms agreed to between the Advertiser and the Harvard Lampoon.
+                            The provisions of the Harvard Lampoon's standard Rate Card and Media Kit, which have been
+                            reviewed by the Advertiser, are incorporated by reference herein.
+                        </div>
+                        <div class="info-element">
+                                <div style="padding-top: 20px; color: white;" class="">**client_signature**</div>
+                                <div class="input">For the Advertiser</div>
+                        </div>
+                        <div class="info-element">
+                                <div style="color: white; padding-top: 30px;" class="value">Test</div>
+                                <div class="input">For the Lampoon</div>
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="right">Total Value: ${{deal.get_product_value}}</div>
+                        <div style="padding-bottom: 0px;" class="center">Additional Information</div>
+                        <div style="border: 1px solid black; margin-bottom: 0px;">
+                            {{deal.info}}
+                        </div>
+
+                        <div style="padding-bottom: 0px;" class="right">Trade Value: <strong>${{deal.trade_value}}</strong></div>
+                        <div style="" class="right">Payment Due: <strong>${{deal.cash_payment}}</strong></div>
+                        
+                    </td>
                 </table>
             </div>
         </td>
