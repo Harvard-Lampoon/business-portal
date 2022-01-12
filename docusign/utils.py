@@ -105,14 +105,21 @@ def make_envelope(deal, request):
             "recipientEvents": [
                 {
                     "recipientEventStatusCode": "Completed",
-                    "includeDocuments": "false"
+                    "includeDocuments": "true"
                 },
             ],
             "eventData": {
                 "version": "restv2.1",
                 "format":  "json",
             }
-        }
+        },
+        "textCustomFields": [
+            {
+                "fieldId": "1",
+                "name": "deal_pk",
+                "value": str(deal.pk)
+            }
+        ]
     }
     print("URL: ", event_notification_url)
     logger.warning("test log")
