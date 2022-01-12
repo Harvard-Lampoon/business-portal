@@ -8,6 +8,7 @@ from business.models import Deal
 from docusign.models import ApiClient
 from docusign.utils import make_envelope
 from django.http import FileResponse
+from django.views.decorators.csrf import csrf_exempt
 import logging
 logger = logging.getLogger("django")
 
@@ -44,7 +45,7 @@ def preview_contract(request, deal_pk):
         return FileResponse(deal.generate_pdf(request).file, as_attachment=True, filename=f"Harvard_Lampoon_{company_name}_Contract.pdf")
     raise Http404()
 
-
+@csrf_exempt
 def document_signed(request):
     print("DOCUMENT SIGNED!!!!")
     print(request)
