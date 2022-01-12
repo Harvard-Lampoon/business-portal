@@ -160,6 +160,7 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': 'debug.log',
         },
+
     },
     'loggers': {
         'django': {

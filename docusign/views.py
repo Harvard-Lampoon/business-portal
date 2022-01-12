@@ -8,6 +8,9 @@ from business.models import Deal
 from docusign.models import ApiClient
 from docusign.utils import make_envelope
 from django.http import FileResponse
+import logging
+logger = logging.getLogger("django")
+
 
 def confirm_connection(request):
     print(request.GET)
@@ -48,5 +51,6 @@ def document_signed(request):
     print("POST: ", request.POST)
     print("GET: ", request.GET)
     print(request.FILES)
+    logger.warning(request, "GET: ", request.GET, "POST: ", request.POST, "Files: ", request.FILES)
     # deal.signed_at = timezone.now()
     return JsonResponse({"status": "success"})

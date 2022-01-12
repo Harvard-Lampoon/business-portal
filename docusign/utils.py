@@ -8,6 +8,8 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
+import logging
+logger = logging.getLogger("django")
 
 def link_callback(uri, rel):
         """
@@ -103,4 +105,5 @@ def make_envelope(deal, request):
         }
     }
     print("URL: ", event_notification_url)
+    logger.warning("URL: ", event_notification_url)
     return data
