@@ -65,10 +65,7 @@ class ApiClient(models.Model):
             "Authorization": f"Bearer {self.access_token}"
         }
         try:
-            print(headers)
-            print(envelope)
             response = requests.post(f"{self.base_uri}/restapi/v2.1/accounts/{self.account_id}/envelopes", headers=headers, data=json.dumps(envelope))
-            print(response.url)
             print("RESPONSE", response)
             data = response.json()
             print(data)
