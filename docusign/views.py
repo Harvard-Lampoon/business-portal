@@ -1,3 +1,4 @@
+import base64
 from django.utils import timezone
 from django.http.response import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
@@ -46,7 +47,7 @@ def preview_contract(request, deal_pk):
     if request.user==deal.created_by or request.user.is_staff:
         company_name = deal.company.name.replace(" ", "_")
         if deal.status == "confirmed":
-            return FileResponse(deal.pdf.file, as_attachment=True, filename=deal.pdf.name)
+            return FileResponse(deal.pdf.file, as_attachment=True, filename=f"Signed_Harvard_Lampoon_{company_name}_Contract.pdf")
         return FileResponse(deal.generate_pdf(request).file, as_attachment=True, filename=f"Harvard_Lampoon_{company_name}_Contract.pdf")
     raise Http404()
 
@@ -59,7 +60,7 @@ def document_signed(request):
     print(request.FILES)
     logger.warning(f"{request}, GET: {request.GET}, POST: {request.POST}, FILES: {request.FILES}, body: {request.body}")
     data = json.loads(request.body)
-    signed_pdf = io.BytesIO(data["envelopeDocuments"][0]["PDFBytes"].encode())
+    signed_pdf = io.BytesIO(base64.b64encode(data["envelopeDocuments"][0]["PDFBytes"].encode()))
     file_name = "Signed_{}".format(data["envelopeDocuments"][0]["name"])
     deal_pk = data["customFields"]["textCustomFields"][0]["value"]
     logger.warning(deal_pk)
