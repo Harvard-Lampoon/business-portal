@@ -1,4 +1,4 @@
-from datetime import time, timezone
+from django.utils import timezone
 from django.http.response import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.contrib import messages
@@ -45,6 +45,8 @@ def preview_contract(request, deal_pk):
     deal = get_object_or_404(Deal, pk = deal_pk)
     if request.user==deal.created_by or request.user.is_staff:
         company_name = deal.company.name.replace(" ", "_")
+        if deal.status == "confirmed":
+            return FileResponse(deal.pdf.file, as_attachment=True, filename=deal.pdf.name)
         return FileResponse(deal.generate_pdf(request).file, as_attachment=True, filename=f"Harvard_Lampoon_{company_name}_Contract.pdf")
     raise Http404()
 
@@ -57,12 +59,12 @@ def document_signed(request):
     print(request.FILES)
     logger.warning(f"{request}, GET: {request.GET}, POST: {request.POST}, FILES: {request.FILES}, body: {request.body}")
     data = json.loads(request.body)
-    signed_pdf = io.BytesIO(data["envelopeDocuments"][0]["PDFBytes"].encode("utf-8"))
-    logger.warning(signed_pdf)
+    signed_pdf = io.BytesIO(data["envelopeDocuments"][0]["PDFBytes"])
     file_name = "Signed_{}".format(data["envelopeDocuments"][0]["name"])
     deal_pk = data["customFields"]["textCustomFields"][0]["value"]
+    logger.warning(deal_pk)
     deal = get_object_or_404(Deal, pk=deal_pk)
-    deal.pdf.save(file_name, File(signed_pdf))
+    deal.pdf.save(file_name, File(signed_pdf), save=False)
     deal.signed_at = timezone.now()
     deal.status = "confirmed"
     deal.save()
