@@ -262,7 +262,7 @@ class company_detail(UpdateView):
             obj = self.get_object()
             obj.delete()
             messages.success(request, "{} has been deleted".format(obj.name))
-            return redirect(reverse("issues"))
+            return redirect(reverse("companies"))
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self):

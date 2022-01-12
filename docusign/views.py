@@ -45,7 +45,8 @@ def preview_contract(request, deal_pk):
 def document_signed(request):
     print("DOCUMENT SIGNED!!!!")
     print(request)
-    print(request.GET)
+    print("POST: ", request.POST)
+    print("GET: ", request.GET)
     print(request.FILES)
     # deal.signed_at = timezone.now()
     return JsonResponse({"status": "success"})

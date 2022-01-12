@@ -102,5 +102,5 @@ def make_envelope(deal, request):
             "includeDocuments": "true"
         }
     }
-
+    print("URL: ", event_notification_url)
     return data
