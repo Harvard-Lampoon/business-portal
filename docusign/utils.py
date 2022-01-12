@@ -107,7 +107,11 @@ def make_envelope(deal, request):
                     "recipientEventStatusCode": "Completed",
                     "includeDocuments": "false"
                 },
-            ]
+            ],
+            "eventData": {
+                "version": "restv2.1",
+                "format":  "json",
+            }
         }
     }
     print("URL: ", event_notification_url)
