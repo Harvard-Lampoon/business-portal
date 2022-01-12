@@ -10,6 +10,8 @@ from docusign.utils import make_envelope
 from django.http import FileResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import io
+from django.core.files import File
 import logging
 logger = logging.getLogger("django")
 
@@ -55,9 +57,16 @@ def document_signed(request):
     print(request.FILES)
     logger.warning(f"{request}, GET: {request.GET}, POST: {request.POST}, FILES: {request.FILES}, body: {request.body}")
     data = json.loads(request.body)
-    custom_fields = requests.get(data["customFieldsUri"])
+    signed_pdf = io.BytesIO(data["envelopeDocuments"][0]["PDFBytes"].encode("utf-8"))
+    logger.warning(signed_pdf)
+    file_name = "Signed_{}".format(data["envelopeDocuments"][0]["name"])
+    deal_pk = data["customFields"]["textCustomFields"][0]["value"]
+    deal = get_object_or_404(Deal, pk=deal_pk)
+    deal.pdf.save(file_name, File(signed_pdf))
+    deal.signed_at = timezone.now()
+    deal.status = "confirmed"
+    deal.save()
     # Get deal pk from /restapi/v2.1/accounts/{accountId}/envelopes/{envelopeId}/custom_fields
-
     # List documents to get document ID
     # Get document pdf and update deal
     

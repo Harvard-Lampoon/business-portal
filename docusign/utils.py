@@ -114,13 +114,15 @@ def make_envelope(deal, request):
                 "includeData": ["custom_fields", "documents", "attachments", "tabs"]
             }
         },
-        "textCustomFields": [
+        "customFields": {
+            "textCustomFields": [
             {
                 "fieldId": "1",
                 "name": "deal_pk",
                 "value": str(deal.pk)
             }
         ]
+        }
     }
     print("URL: ", event_notification_url)
     logger.warning("test log")
