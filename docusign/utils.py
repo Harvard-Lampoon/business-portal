@@ -101,7 +101,13 @@ def make_envelope(deal, request):
         "eventNotification": {
             "url": event_notification_url,
             "requireAcknowledgment": "true",
-            "includeDocuments": "true"
+            "loggingEnabled": "true",
+            "recipientEvents": [
+                {
+                    "recipientEventStatusCode": "Completed",
+                    "includeDocuments": "false"
+                },
+            ]
         }
     }
     print("URL: ", event_notification_url)
