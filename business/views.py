@@ -108,7 +108,7 @@ def create_deal(request):
         if action == "select":
             company = get_object_or_404(Company, pk=data.get("company-pk"))
         elif action == "create":
-            company = Company.objects.create(name=data.get("company-name"), notes=data.get("company-notes"), contact_name=data.get("contact-name"), contact_email=data.get("contact-email"))
+            company = Company.objects.create(name=data.get("company-name"), contact_name=data.get("contact-name"), contact_email=data.get("contact-email"), billing_address=data.get("billing-address"), city_state_zip=data.get("city-state-zip"))
         else:
             raise Http404()
         
