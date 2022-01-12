@@ -51,6 +51,6 @@ def document_signed(request):
     print("POST: ", request.POST)
     print("GET: ", request.GET)
     print(request.FILES)
-    logger.warning(request, "GET: ", request.GET, "POST: ", request.POST, "Files: ", request.FILES)
+    logger.warning(f"{request}, GET: {request.GET}, POST: {request.POST}, FILES: {request.FILES}")
     # deal.signed_at = timezone.now()
     return JsonResponse({"status": "success"})

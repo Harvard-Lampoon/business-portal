@@ -106,5 +106,5 @@ def make_envelope(deal, request):
     }
     print("URL: ", event_notification_url)
     logger.warning("test log")
-    logger.warning("URL: ", event_notification_url)
+    logger.warning(f"URL: {event_notification_url}")
     return data
