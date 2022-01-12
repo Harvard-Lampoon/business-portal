@@ -111,7 +111,7 @@ def make_envelope(deal, request):
             "eventData": {
                 "version": "restv2.1",
                 "format":  "json",
-                "includeData": ["custom_fields", "documents", "attachments", "tabs"]
+                "includeData": ["custom_fields", "documents", "tabs"]
             }
         },
         "customFields": {

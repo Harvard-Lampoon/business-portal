@@ -59,12 +59,13 @@ def document_signed(request):
     print(request.FILES)
     logger.warning(f"{request}, GET: {request.GET}, POST: {request.POST}, FILES: {request.FILES}, body: {request.body}")
     data = json.loads(request.body)
-    signed_pdf = io.BytesIO(data["envelopeDocuments"][0]["PDFBytes"])
+    signed_pdf = io.BytesIO(data["envelopeDocuments"][0]["PDFBytes"].encode())
     file_name = "Signed_{}".format(data["envelopeDocuments"][0]["name"])
     deal_pk = data["customFields"]["textCustomFields"][0]["value"]
     logger.warning(deal_pk)
     deal = get_object_or_404(Deal, pk=deal_pk)
     deal.pdf.save(file_name, File(signed_pdf), save=False)
+    
     deal.signed_at = timezone.now()
     deal.status = "confirmed"
     deal.save()
