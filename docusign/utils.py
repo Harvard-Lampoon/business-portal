@@ -58,7 +58,7 @@ def render_to_pdf(template_src, context_dict={}):
     return response
 
 def make_envelope(deal, request):
-    event_notification_url = request.build_absolute_uri(reverse('document_signed')) if not settings.DEBUG else ""
+    event_notification_url = request.build_absolute_uri(reverse('document_signed'))
     data = {
         "status": "sent",
         "documents": [
@@ -105,5 +105,6 @@ def make_envelope(deal, request):
         }
     }
     print("URL: ", event_notification_url)
+    logger.warning("test log")
     logger.warning("URL: ", event_notification_url)
     return data
