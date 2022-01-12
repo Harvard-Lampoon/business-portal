@@ -103,7 +103,7 @@ def create_deal(request):
     companies = Company.objects.filter(is_active=True).order_by("-name")
     if request.method=="POST":
         data = request.POST
-        notes = data.get("notes", None)
+        info = data.get("info", " ")
         action = data.get("action")
         if action == "select":
             company = get_object_or_404(Company, pk=data.get("company-pk"))
@@ -115,7 +115,7 @@ def create_deal(request):
         deal = Deal.objects.create(
             status="created",
             company=company,
-            notes=notes,
+            info=info,
             created_by=request.user,
         )
         return redirect(reverse("deal_detail", kwargs={"pk": deal.pk}))
