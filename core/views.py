@@ -13,4 +13,3 @@ def home(request):
         "monthly_data": Deal.objects.get_monthly_data()
     }
     return render(request, "index.html", context)
-
