@@ -6,6 +6,7 @@ urlpatterns = [
     path("issues/<pk>/", issue_detail.as_view(), name="issue_detail"),
     path("companies/", companies.as_view(), name="companies"),
     path("companies/<pk>/", company_detail.as_view(), name="company_detail"),
+    path("deal-all/", public_deals.as_view(), name="public_deals"),
     path("my-deals/", my_deals.as_view(), name="my_deals"),
     path("create/deals/", create_deal, name="create_deal"),
     path("deals/<pk>/", deal_detail.as_view(), name="deal_detail"),

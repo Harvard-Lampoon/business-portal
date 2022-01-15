@@ -53,7 +53,7 @@ class issue_detail(UpdateView):
 class my_deals(ListView):
     paginate_by = 25
     model = Deal
-    template_name = "business/my-deals.html"
+    template_name = "business/deals.html"
     def get_queryset(self):
         filter_qs = self.request.GET.get("filter", "")
         context = super().get_queryset().filter(created_by=self.request.user).filter(
@@ -62,15 +62,29 @@ class my_deals(ListView):
         Q(company__contact_email__icontains=filter_qs)
         ).order_by("-created_at")
         return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "My Deals"
+        return context
 
 @method_decorator([login_required, business_required], name="dispatch")
 class public_deals(ListView):
     paginate_by = 25
     model = Deal
-    template_name = "business/public-deals.html"
+    template_name = "business/deals.html"
     def get_queryset(self):
         filter_qs = self.request.GET.get("filter", "")
-        context = super().get_queryset().filter(is_private=False).filter(Q(type__icontains=filter_qs)|Q(company__name__icontains=filter_qs)|Q(created_by__name__icontains=filter_qs)).order_by("-created_at")
+        context = super().get_queryset().filter(is_private=False).filter(
+        Q(created_by__name__icontains=filter_qs)|
+        Q(created_by__email__icontains=filter_qs)|
+        Q(company__name__icontains=filter_qs)|
+        Q(company__contact_name__icontains=filter_qs)|
+        Q(company__contact_email__icontains=filter_qs)
+        ).order_by("-created_at")
+        return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Public Deals"
         return context
 
 @method_decorator([login_required], name="dispatch")
@@ -98,7 +112,6 @@ class deal_detail(UpdateView):
         return reverse('deal_detail', kwargs={'pk': self.object.pk})
 
 @login_required
-@business_required
 def create_deal(request):
     companies = Company.objects.filter(is_active=True).order_by("-name")
     if request.method=="POST":
@@ -148,6 +161,7 @@ class ProductCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['type'] = self.model.__name__
+        context["deal_pk"] = self.kwargs.get("deal_pk")
         return context
 
 class create_magazine_product(ProductCreateView):

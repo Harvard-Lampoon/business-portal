@@ -29,6 +29,12 @@
         </h6>
         <ul class="nav flex-column mb-2">
             <li class="nav-item">
+                <a class="nav-link {% if request.path == '/business/deal-all/' %}active{% endif %}" href="{% url 'public_deals' %}">
+                    <i class="fas fa-gift"></i>
+                    Public Deals
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {% if 'deals' in request.path %}active{% endif %}" href="{% url 'my_deals' %}">
                     <i class="fas fa-gift"></i>
                     My Deals
@@ -38,12 +44,6 @@
                 <a class="nav-link {% if 'companies' in request.path %}active{% endif %}" href="{% url 'companies' %}">
                     <i class="fas fa-building"></i>
                     Companies
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if 'products' in request.path %}active{% endif %}" href="#">
-                    <i class="fas fa-image"></i>
-                    Products
                 </a>
             </li>
             <li class="nav-item">

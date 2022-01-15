@@ -4,29 +4,36 @@
 {% block content %}
 
 <div class="d-flex align-items-center justify-content-between px-2 mb-3">
-  <h2>Issues</h2>
-  <button data-bs-toggle="modal" data-bs-target="#modal" class="btn btn-primary">Create New</button>
+  <h2>{{title}}</h2>
+  <a href="{% url 'create_deal' %}" class="btn btn-primary">Create New</a>
 </div>
 <div class="card">
   <div class="card-body">
+    {% include 'includes/filter.html' %}
     <div class="table-responsive">
       <table class="table table-hover">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Company</th>
+            {% if title == "Public Deals" %}
+            <th scope="col">Owner</th>
+            {% endif %}
             <th scope="col">Value</th>
-            <th scope="col">Is Active</th>
+            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
           {% for object in object_list %}
 
-          <tr link="{% url 'issue_detail' object.pk %}" class="table-link">
+          <tr link="{% url 'deal_detail' object.pk %}" class="table-link">
             <th scope="row">{{object.pk}}</th>
             <td>{{object.company.name}}</td>
-            <td>{{object.value}}</td>
-            <td>{{object.created_by}}</td>
+            {% if title == "Public Deals" %}
+            <td scope="col">{{object.created_by.name}}</td>
+            {% endif %}
+            <td>${{object.get_total_value|floatformat:2}}</td>
+            <td>{{object.get_status_display}}<span class="dot dot-{{object.status}} ms-1"></span></td>
           </tr>
           {% endfor %}
         </tbody>
@@ -35,6 +42,5 @@
   </div>
 </div>
 
-{% include 'business/modals/issue.html' %}
 
 {% endblock %}

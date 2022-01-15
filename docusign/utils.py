@@ -91,8 +91,8 @@ def make_envelope(deal, request):
             ],
             "carbonCopies": [
                 {
-                    "email": "samsuchin@gmail.com",
-                    "name": "Sam Suchin",
+                    "email": "noreply@harvardlampoon.com",
+                    "name": "Harvard Lampoon",
                     "recipientId": "2",
                     "routingOrder": "2",
                 }

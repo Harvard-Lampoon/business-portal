@@ -43,7 +43,7 @@ class Deal(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     signed_at = models.DateTimeField(null=True, blank=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
-    is_private = models.BooleanField(default=True)
+    is_private = models.BooleanField(default=False)
     trade_value = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
     cash_payment = models.DecimalField(decimal_places=2, max_digits=50, null=True, blank=True)
     pdf = models.FileField(upload_to="deals/", null=True, blank=True)
@@ -68,6 +68,11 @@ class Deal(models.Model):
         pdf = render_to_pdf('pdfs/deal-contract.html', context)
         self.pdf.save("Harvard_Lampoon_Contract", (BytesIO(pdf.content)))
         return self.pdf
+
+    def get_signed_at_number(self):
+        if self.signed_at:
+            return self.signed_at.strftime("%Y%m%d")
+        return None
 
 class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)

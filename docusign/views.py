@@ -47,17 +47,12 @@ def preview_contract(request, deal_pk):
     if request.user==deal.created_by or request.user.is_staff:
         company_name = deal.company.name.replace(" ", "_")
         if deal.status == "confirmed":
-            return FileResponse(deal.pdf.file, as_attachment=True, filename=f"Signed_Harvard_Lampoon_{company_name}_Contract.pdf")
+            return FileResponse(deal.pdf.file, as_attachment=True, filename=f"{deal.get_signed_at_number()}_Signed_Harvard_Lampoon_{company_name}_Contract.pdf")
         return FileResponse(deal.generate_pdf(request).file, as_attachment=True, filename=f"Harvard_Lampoon_{company_name}_Contract.pdf")
     raise Http404()
 
 @csrf_exempt
 def document_signed(request):
-    print("DOCUMENT SIGNED!!!!")
-    print(request)
-    print("POST: ", request.POST)
-    print("GET: ", request.GET)
-    print(request.FILES)
     logger.warning(f"{request}, GET: {request.GET}, POST: {request.POST}, FILES: {request.FILES}, body: {request.body}")
     data = json.loads(request.body)
     signed_pdf = io.BytesIO(base64.b64decode(data["envelopeDocuments"][0]["PDFBytes"].encode()))
@@ -70,9 +65,4 @@ def document_signed(request):
     deal.signed_at = timezone.now()
     deal.status = "confirmed"
     deal.save()
-    # Get deal pk from /restapi/v2.1/accounts/{accountId}/envelopes/{envelopeId}/custom_fields
-    # List documents to get document ID
-    # Get document pdf and update deal
-    
-    # deal.signed_at = timezone.now()
     return JsonResponse({"status": "success"})

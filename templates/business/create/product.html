@@ -2,7 +2,12 @@
 {% load static %}
 
 {% block content %}
-<h2 class="text-center">Add New {{type}} Product</h2>
+<div class="d-flex align-items-center">
+    <a class="me-auto" href="{% url 'deal_detail' deal_pk %}">
+        <i class="fas fa-arrow-alt-circle-left fa-2x purple"></i>
+    </a>
+    <h2 class="text-center me-auto">Add New {{type}} Product</h2>
+</div>
 <div class="card">
     <div class="card-body">
         <form enctype="multipart/form-data" method="post">{% csrf_token %}
