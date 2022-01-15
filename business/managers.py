@@ -12,3 +12,6 @@ class DealManager(models.Manager):
                 sum+= deal.get_total_value()
             data.append(sum)
         return data
+    
+    def get_public_deals(self):
+        return self.get_queryset().filter(is_private=False).order_by("-created_at")
