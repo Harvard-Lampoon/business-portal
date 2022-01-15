@@ -20,6 +20,7 @@
   left: 0;
   z-index: 100; /* Behind the navbar */
   padding: 60px 0 0; /* Height of navbar */
+  /* box-shadow: .5rem 0 1rem rgba(0, 0, 0, 0.15); */
 }
 
 
@@ -75,7 +76,7 @@
 }
 
 .navbar .navbar-toggler {
-
+  border-color: transparent;
   right: 1rem;
 }
 

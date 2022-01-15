@@ -5,7 +5,8 @@ body {
   
 .card{
     border-color: white;
-    border-radius: 10px;
+    border-radius: 15px;
+    /* box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15); */
   }
   .form-control{
     border-radius: 10px;
@@ -18,7 +19,9 @@ body {
   color: #713adb;
   
 }
-
+.bg-2{
+  background-color: #f3f4f9;
+}
 
 .btn-primary{
     background-color: #713adb;
@@ -91,6 +94,9 @@ body {
 }
 .dot-cancelled{
   background-color: red;
+}
+#side-nav-image{
+  outline-color: none;
 }
 
 /* 
