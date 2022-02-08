@@ -1,4 +1,4 @@
-{% extends 'base2.html' %}
+{% extends 'registration/base.html' %}
 
 {% load static %}
 
@@ -7,6 +7,7 @@
         {% include 'includes/form.html' %}
         <div class="text-center">
           <button class="btn btn-primary mt-3 w-100" type="submit">Login</button>
+          <div class="help-text pb-2 mt-3">Forgot your password? <a class="link" href="{% url 'password_reset' %}">Reset Password</a></div>
         </div>
     </form>
 

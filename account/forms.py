@@ -32,3 +32,7 @@ class LoginForm(AuthenticationForm):
 
         return self.cleaned_data
 
+class UserSettingsForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ["name",]
