@@ -272,7 +272,8 @@ class companies(ListView):
             contact_name=request.POST.get("contact_name"),
             contact_email=request.POST.get("contact_email"),
             billing_address=request.POST.get("billing_address"),
-            city_state_zip=request.POST.get("city_state_zip")
+            city_state_zip=request.POST.get("city_state_zip"),
+            added_by=request.user
         )
         return redirect(reverse("company_detail", kwargs={"pk": object.pk}))
 
