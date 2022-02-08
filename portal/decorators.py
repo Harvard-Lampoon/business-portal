@@ -11,4 +11,3 @@ def business_required(function):
         messages.error(request, 'You do not have business staff access')
         return redirect("login")
     return _function
-

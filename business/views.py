@@ -87,11 +87,17 @@ class public_deals(ListView):
         context["title"] = "Public Deals"
         return context
 
-@method_decorator([login_required], name="dispatch")
 class deal_detail(UpdateView):
     model = Deal
     fields = ["is_private", "trade_value", "cash_payment", "info"]
     template_name = "business/deal-detail.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.created_by == request.user or request.user.account_type=="staff" or request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        messages.error(request, 'You do not have business staff access or own this deal')
+        return redirect("login")
 
     def post(self, request, *args, **kwargs):
         action = request.POST.get("action", None)
@@ -192,9 +198,15 @@ class create_other_product(ProductCreateView):
     model = Other
     fields = [ "value", "notes"]
 
-@method_decorator([login_required, business_required], name="dispatch")
 class ProductUpdateView(UpdateView):
     template_name = "business/product-detail.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.deal.created_by == request.user or request.user.account_type=="staff" or request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        messages.error(request, 'You do not have business staff access or own this product')
+        return redirect("login")
 
     def post(self, request, *args, **kwargs):
         action = request.POST.get("action", None)
@@ -264,11 +276,17 @@ class companies(ListView):
         )
         return redirect(reverse("company_detail", kwargs={"pk": object.pk}))
 
-@method_decorator([login_required, business_required], name="dispatch")
 class company_detail(UpdateView):
     model = Company
     fields = "__all__"
     template_name = "business/company-detail.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.added_by == request.user or request.user.account_type=="staff" or request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        messages.error(request, 'You do not have business staff access or did not add this company')
+        return redirect("login")
 
     def post(self, request, *args, **kwargs):
         action = request.POST.get("action", None)

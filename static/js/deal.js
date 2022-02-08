@@ -33,6 +33,9 @@ product_select.addEventListener("change", (e)=>{
 })
 
 function request(status){
+    if(status=="created"){
+        return confirm("Are you sure you want to send the contract to the client? Please confirm all of the information before proceeding.")
+    }
     if(status=="pending"){
         return confirm("A request has already been sent out. Are you sure you want to send another?")
     }

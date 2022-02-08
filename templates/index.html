@@ -6,7 +6,7 @@
         <h1 class="h2">Dashboard</h1>
       </div>
 
-
+      {% if request.user.account_type == 'staff' %}
       <div class="row g-3">
         <h4 class="text-center">All Lampoon Deals - Monthly Performance</h4>
         <div class="col-12">
@@ -16,18 +16,14 @@
             </div>
           </div>
         </div>
-        <div class="col-6">
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
-        </div>
       </div>
+      {% else %}
+      <div class="text-center">
+      <h1>Information hidden from user</h1>
+      <a class="link h3" href="{% url 'my_deals' %}">My Comper Deals</a>
+    </div>
+      {% endif %}
+
 {% endblock %}
 
 {% block js %}
