@@ -10,6 +10,7 @@ from docusign.models import ApiClient
 from docusign.utils import make_envelope
 from .managers import DealManager
 import decimal
+from django.contrib.staticfiles import finders
 
 class Company(models.Model):
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
@@ -64,7 +65,8 @@ class Deal(models.Model):
         self.pdf.delete()
         context = {
             "deal": self,
-            "request": request
+            "request": request,
+            "signature": finders.find("fonts/OoohBaby-Regular.ttf")
         }
         pdf = render_to_pdf('pdfs/deal-contract.html', context)
         self.pdf.save("Harvard_Lampoon_Contract", (BytesIO(pdf.content)))
