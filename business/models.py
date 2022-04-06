@@ -102,7 +102,10 @@ class Product(models.Model):
 
     def get_issue(self):
         if self.type == "magazine":
-            return self.magazine.issue.name or "Unknown"
+            if self.magazine.issue:
+                return self.magazine.issue.name
+            else:
+                return "Unknown"
         return "NA"
 
 class Magazine(Product):

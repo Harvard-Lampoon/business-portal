@@ -25,7 +25,8 @@ class PRODUCT:
         ("quarter", "Quarter Page"),
         ("half", "Half Page"),
         ("full", "Full Page"),
-        ("two", "Two Page Spread")
+        ("two", "Two Page Spread"),
+        ("tbd", "TBD")
     ]
     PLACEMENTS = [
         ("inside_front", "Inside Front Cover"),
@@ -33,7 +34,8 @@ class PRODUCT:
         ("inside_back", "Inside Back Cover"),
         ("opposite_inside_back", "Opposite Inside Back Cover"),
         ("back", "Back Cover"),
-        ("two_page_centerfold", "Two Page Centerfold Spread")
+        ("two_page_centerfold", "Two Page Centerfold Spread"),
+        ("tbd", "TBD")
     ]
     NEWSLETTER_SIZES = [
         ("box", "Box"),
